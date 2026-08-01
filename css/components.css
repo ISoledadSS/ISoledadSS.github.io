@@ -775,3 +775,49 @@ html[lang="en"] [lang="es"] { display: none; }
   color: var(--ink-3);
   max-width: 78ch;
 }
+
+/* ══════════ Las cinco aplicaciones ══════════ */
+
+.apps { margin-bottom: var(--sp-24); }
+
+.apps__head { max-width: 66ch; margin-bottom: var(--sp-8); }
+.apps__head h3 { font-size: var(--t-lg); margin-bottom: var(--sp-2); }
+.apps__head p { font-size: var(--t-sm); color: var(--ink-3); }
+
+.apps__list { border-top: 1px solid var(--line); }
+
+.apps__list li {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: var(--sp-6);
+  padding: var(--sp-6) 0;
+  border-bottom: 1px solid var(--line);
+}
+@media (max-width: 640px) {
+  .apps__list li { grid-template-columns: 1fr; gap: var(--sp-2); }
+}
+
+.apps__n {
+  font-family: var(--f-mono);
+  font-size: var(--t-sm);
+  color: var(--accent);
+  padding-top: 2px;
+}
+
+.apps__list h4 {
+  font-size: var(--t-md);
+  font-weight: 640;
+  letter-spacing: -0.015em;
+  margin: 0 0 var(--sp-2);
+}
+
+.apps__list p { font-size: var(--t-sm); color: var(--ink-2); max-width: 82ch; }
+
+.apps__mods {
+  margin-top: var(--sp-3);
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.04em;
+  color: var(--ink-3) !important;
+  line-height: 1.7;
+}
