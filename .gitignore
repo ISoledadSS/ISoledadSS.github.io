@@ -1,0 +1,26 @@
+# Sistema operativo
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+._*
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*~
+
+# Temporales de Office (los que genera Word al abrir el CV)
+~$*.docx
+~$*.doc
+
+# Empaquetados y respaldos
+*.zip
+*.bak
+*.orig
+
+# Notas y material que no se publica
+NOTAS-INTERNAS.md
+privado/
