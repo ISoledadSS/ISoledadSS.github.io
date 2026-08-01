@@ -17,9 +17,9 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <!-- El ?v= fuerza a los navegadores a pedir la versión nueva en lugar de la
      copia en caché. Súbelo cada vez que cambies un archivo de css/ o js/. -->
-<link rel="stylesheet" href="css/tokens.css?v=2">
-<link rel="stylesheet" href="css/base.css?v=2">
-<link rel="stylesheet" href="css/components.css?v=2">
+<link rel="stylesheet" href="css/tokens.css?v=3">
+<link rel="stylesheet" href="css/base.css?v=3">
+<link rel="stylesheet" href="css/components.css?v=3">
 </head>
 <body>
 
@@ -229,6 +229,65 @@
           </div>
         </dl>
       </aside>
+    </div>
+
+    <!-- Comprar o construir -->
+    <div class="bvb reveal">
+      <div class="bvb__head">
+        <h3><span lang="es">Comprar o construir</span><span lang="en">Buy or build</span></h3>
+        <p class="bvb__rule">
+          <span lang="es">La regla que apliqué: <strong>construir gana cuando el precio del proveedor escala con
+          algo que no controlo</strong> —asientos, activos bajo gestión— y lo que necesito ya vive en
+          nuestros datos. <strong>Comprar gana cuando el proveedor es la fuente</strong>, no el envoltorio.</span>
+          <span lang="en">The rule I applied: <strong>building wins when the vendor's price scales with something I
+          don't control</strong> —seats, assets under management— and what I need already lives in our
+          data. <strong>Buying wins when the vendor is the source</strong>, not the wrapper.</span>
+        </p>
+      </div>
+
+      <ul class="bvb__list">
+        <li>
+          <p class="bvb__cap"><span lang="es">Reportes patrimoniales</span><span lang="en">Wealth reporting</span></p>
+          <p class="bvb__price">USD 75,000 – 300,000<i>/<span lang="es">año</span><span lang="en">year</span></i></p>
+          <p class="bvb__src"><span lang="es">Plataforma de reporteo patrimonial. Rango reportado por terceros; el proveedor no publica precios.</span><span lang="en">Wealth reporting platform. Range reported by third parties; the vendor publishes no pricing.</span></p>
+          <p class="bvb__why"><span lang="es">Construido. El reporte es la capa final sobre una conciliación que ya era nuestra: comprarlo significaba pagar por volver a resolver lo ya resuelto.</span><span lang="en">Built. The report is the final layer on a reconciliation that was already ours: buying it meant paying to solve again what was already solved.</span></p>
+        </li>
+
+        <li>
+          <p class="bvb__cap"><span lang="es">Composición de ETFs</span><span lang="en">ETF composition</span></p>
+          <p class="bvb__price">USD 17,500<i>/<span lang="es">año · 1.er asiento</span><span lang="en">year · 1st seat</span></i></p>
+          <p class="bvb__src"><span lang="es">Última cifra pública de un proveedor de datos de mercado (reporte 10-K de 2016); estimaciones actuales la sitúan entre 20,000 y 22,000.</span><span lang="en">Last public figure from a market data provider (2016 10-K filing); current estimates put it between 20,000 and 22,000.</span></p>
+          <p class="bvb__why"><span lang="es">Construido. Los constituyentes de un ETF están en sus reportes regulatorios N-PORT, que son públicos. Se pagaba por el trabajo de leerlos, no por el dato.</span><span lang="en">Built. An ETF's constituents sit in its N-PORT regulatory filings, which are public. What was being paid for was the work of reading them, not the data.</span></p>
+        </li>
+
+        <li>
+          <p class="bvb__cap"><span lang="es">Edición de PDF, OCR y firma</span><span lang="en">PDF editing, OCR and signing</span></p>
+          <p class="bvb__price">USD 288<i>/<span lang="es">año · por asiento</span><span lang="en">year · per seat</span></i></p>
+          <p class="bvb__src"><span lang="es">Precio de lista 2026 del editor de escritorio líder, USD 23.99 por usuario al mes en su plan para equipos.</span><span lang="en">2026 list price of the leading desktop editor, USD 23.99 per user per month on its team plan.</span></p>
+          <p class="bvb__why"><span lang="es">Construido. Aquí el costo crece con cada persona que se suma; el servicio interno cuesta lo mismo para uno que para toda la firma.</span><span lang="en">Built. Here the cost grows with every person added; the internal service costs the same for one user as for the whole firm.</span></p>
+        </li>
+
+        <li>
+          <p class="bvb__cap"><span lang="es">Procesos: modelado y ejecución</span><span lang="en">Processes: modelling and execution</span></p>
+          <p class="bvb__price"><span lang="es">sin precio público</span><span lang="en">no public price</span></p>
+          <p class="bvb__src"><span lang="es">El modelador BPMN de escritorio es gratuito; lo que se cobra es el nivel de automatización, cuyo precio no se publica.</span><span lang="en">The desktop BPMN modeller is free; what is charged for is the automation tier, whose price is not published.</span></p>
+          <p class="bvb__why"><span lang="es">Construido. Modelar era gratis, así que el valor nunca estuvo en el diagrama: está en el motor que lo ejecuta contra nuestros propios datos.</span><span lang="en">Built. Modelling was free, so the value was never in the diagram: it is in the engine that runs it against our own data.</span></p>
+        </li>
+      </ul>
+
+      <p class="bvb__foot">
+        <span lang="es"><b>Y comprar fue lo correcto tres veces más:</b> el vector de precios de VALMER —una fuente de
+        valuación oficial no se reconstruye—, la base de datos y el framework, y la librería de gráficos.
+        El criterio no es construir. Es saber cuál de las dos cosas cuesta más a cinco años.</span>
+        <span lang="en"><b>And buying was the right call three more times:</b> the VALMER price vector —an official
+        valuation source is not something you rebuild—, the database and the framework, and the charting
+        library. The criterion is not to build. It is knowing which of the two costs more over five years.</span>
+      </p>
+
+      <p class="bvb__disc">
+        <span lang="es">Cifras de lista o reportadas por terceros para el equivalente comercial de cada capacidad, no el gasto de ninguna firma en particular.</span>
+        <span lang="en">List or third-party-reported figures for the commercial equivalent of each capability, not any particular firm's spending.</span>
+      </p>
     </div>
 
     <!-- Galería -->
@@ -814,6 +873,6 @@
   <img id="lbimg" src="" alt="">
 </div>
 
-<script src="js/main.js?v=2"></script>
+<script src="js/main.js?v=3"></script>
 </body>
 </html>

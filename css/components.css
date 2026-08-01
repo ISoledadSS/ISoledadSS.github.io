@@ -682,3 +682,96 @@ html[lang="en"] [lang="es"] { display: none; }
   font-weight: 600;
   letter-spacing: 0.1em;
 }
+
+/* ══════════ Comprar o construir ══════════ */
+
+.bvb {
+  margin-bottom: var(--sp-24);
+  padding: var(--sp-8);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.bvb__head { max-width: 68ch; margin-bottom: var(--sp-8); }
+.bvb__head h3 { font-size: var(--t-lg); margin-bottom: var(--sp-3); }
+.bvb__rule { font-size: var(--t-base); color: var(--ink-2); }
+
+.bvb__list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-6);
+  padding-top: var(--sp-6);
+  border-top: 1px solid var(--line);
+}
+@media (max-width: 980px) { .bvb__list { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .bvb__list { grid-template-columns: 1fr; } }
+
+.bvb__list li { display: flex; flex-direction: column; }
+
+.bvb__cap {
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: var(--sp-3);
+  min-height: 3.4em;   /* dos renglones, para que las cuatro columnas arranquen parejas */
+}
+
+.bvb__price {
+  font-family: var(--f-mono);
+  font-size: var(--t-lg);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  line-height: 1.15;
+  margin-bottom: var(--sp-2);
+  font-variant-numeric: tabular-nums;
+  /* Alinea el borde inferior de las cuatro columnas aunque una cifra
+     ocupe dos renglones y otra sólo uno. */
+  min-height: 4.4rem;
+}
+.bvb__price i {
+  display: block;
+  margin-top: 4px;
+  font-style: normal;
+  font-size: var(--t-xs);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+}
+
+.bvb__src {
+  font-size: var(--t-xs);
+  line-height: 1.5;
+  color: var(--ink-3);
+  padding-bottom: var(--sp-3);
+  margin-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--line);
+  min-height: 6em;
+}
+
+@media (max-width: 560px) {
+  .bvb__price, .bvb__src { min-height: 0; }
+  .bvb__cap { min-height: 0; }
+}
+
+.bvb__why { font-size: var(--t-sm); line-height: 1.6; color: var(--ink-2); }
+
+.bvb__foot {
+  margin-top: var(--sp-8);
+  padding-top: var(--sp-6);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-base);
+  color: var(--ink-2);
+  max-width: 78ch;
+}
+.bvb__foot b { color: var(--ink); }
+
+.bvb__disc {
+  margin-top: var(--sp-4);
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  max-width: 78ch;
+}
