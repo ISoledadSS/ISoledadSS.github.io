@@ -40,6 +40,84 @@
     });
   }
 
+  /* ---------- Idioma -------------------------------------- */
+  /* Los dos idiomas viven en el HTML; el CSS oculta el que no corresponde
+     al atributo lang del documento. Aquí sólo se cambia ese atributo y lo
+     que no puede vivir en el marcado: título, descripción y textos alt.   */
+
+  var KEY_IDIOMA = 'is-idioma';
+
+  var TEXTOS = {
+    es: {
+      titulo: 'Isaac Soledad Martínez — Plataformas de datos financieros',
+      desc: 'Economista financiero y desarrollador. Diseño y construyo plataformas internas de ' +
+            'operación, información y analítica para asesoría financiera: Python/FastAPI, React y PostgreSQL.',
+      locale: 'es_MX',
+      secciones: 'Secciones',
+      tema: 'Cambiar tema',
+      menu: 'Menú',
+      cerrar: 'Cerrar',
+      ampliada: 'Vista ampliada'
+    },
+    en: {
+      titulo: 'Isaac Soledad Martínez — Financial data platforms',
+      desc: 'Financial economist and developer. I design and build internal platforms for operations, ' +
+            'information and analytics in financial advisory: Python/FastAPI, React and PostgreSQL.',
+      locale: 'en_US',
+      secciones: 'Sections',
+      tema: 'Toggle theme',
+      menu: 'Menu',
+      cerrar: 'Close',
+      ampliada: 'Enlarged view'
+    }
+  };
+
+  function ponAtributo(sel, attr, valor) {
+    var el = document.querySelector(sel);
+    if (el) el.setAttribute(attr, valor);
+  }
+
+  function setIdioma(l) {
+    var t = TEXTOS[l] || TEXTOS.es;
+    document.documentElement.setAttribute('lang', l);
+    document.title = t.titulo;
+
+    ponAtributo('meta[name="description"]', 'content', t.desc);
+    ponAtributo('meta[property="og:title"]', 'content', t.titulo);
+    ponAtributo('meta[property="og:description"]', 'content', t.desc);
+    ponAtributo('meta[property="og:locale"]', 'content', t.locale);
+    ponAtributo('.nav', 'aria-label', t.secciones);
+    ponAtributo('#theme', 'aria-label', t.tema);
+    ponAtributo('#burger', 'aria-label', t.menu);
+    ponAtributo('#lbx', 'aria-label', t.cerrar);
+    ponAtributo('#lb', 'aria-label', t.ampliada);
+
+    // El atributo alt no admite dos idiomas en el marcado: se intercambia aquí.
+    $$('img[data-alt-en]').forEach(function (img) {
+      if (!img.hasAttribute('data-alt-es')) img.setAttribute('data-alt-es', img.getAttribute('alt') || '');
+      img.setAttribute('alt', img.getAttribute(l === 'en' ? 'data-alt-en' : 'data-alt-es') || '');
+    });
+
+    store(KEY_IDIOMA, l);
+  }
+
+  var idiomaGuardado = recall(KEY_IDIOMA);
+
+  if (idiomaGuardado === 'es' || idiomaGuardado === 'en') {
+    setIdioma(idiomaGuardado);
+  } else {
+    // Primera visita: se respeta el idioma del navegador, con español por defecto.
+    var nav = (navigator.language || 'es').toLowerCase();
+    setIdioma(nav.indexOf('es') === 0 ? 'es' : 'en');
+  }
+
+  var langBtn = $('#lang');
+  if (langBtn) {
+    langBtn.addEventListener('click', function () {
+      setIdioma(document.documentElement.getAttribute('lang') === 'en' ? 'es' : 'en');
+    });
+  }
+
   /* ---------- Menú móvil ---------------------------------- */
 
   var burger = $('#burger');

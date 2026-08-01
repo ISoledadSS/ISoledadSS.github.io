@@ -665,3 +665,20 @@
   background: var(--accent-dim);
   color: var(--accent);
 }
+
+/* ══════════ Idioma ══════════ */
+/* Cada bloque traducible lleva las dos versiones en el HTML; aquí se oculta
+   la que no corresponde al idioma activo del documento. Sin JavaScript se ve
+   el español, que es el idioma declarado en <html lang>.                     */
+
+html[lang="es"] [lang="en"] { display: none; }
+html[lang="en"] [lang="es"] { display: none; }
+
+.iconbtn--lang {
+  width: auto;
+  padding-inline: var(--sp-3);
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
