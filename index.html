@@ -15,9 +15,11 @@
 <meta property="og:locale:alternate" content="en_US">
 
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="css/tokens.css">
-<link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/components.css">
+<!-- El ?v= fuerza a los navegadores a pedir la versión nueva en lugar de la
+     copia en caché. Súbelo cada vez que cambies un archivo de css/ o js/. -->
+<link rel="stylesheet" href="css/tokens.css?v=2">
+<link rel="stylesheet" href="css/base.css?v=2">
+<link rel="stylesheet" href="css/components.css?v=2">
 </head>
 <body>
 
@@ -812,6 +814,6 @@
   <img id="lbimg" src="" alt="">
 </div>
 
-<script src="js/main.js"></script>
+<script src="js/main.js?v=2"></script>
 </body>
 </html>
