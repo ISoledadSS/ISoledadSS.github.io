@@ -3,11 +3,36 @@
    Un solo lugar para color, tipografía, ritmo y sombra.
    ============================================================ */
 
+/* ── Tipografía ──────────────────────────────────────────────
+   Geist y Geist Mono, autoalojadas: el sitio no pide nada a
+   servidores ajenos. Son fuentes variables, así que un solo
+   archivo por familia cubre todo el rango de pesos y los valores
+   intermedios que usa el diseño (560, 620, 650…) se interpolan
+   en lugar de saltar al peso más cercano.
+   Licencia SIL Open Font 1.1 · vercel/geist-font
+   ──────────────────────────────────────────────────────────── */
+
+@font-face {
+  font-family: "Geist";
+  src: url("../assets/fonts/geist-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("../assets/fonts/geist-mono-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* — Tipografía — */
-  --f-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  --f-sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
             "Helvetica Neue", Arial, sans-serif;
-  --f-mono: ui-monospace, SFMono-Regular, "SF Mono", "JetBrains Mono",
+  --f-mono: "Geist Mono", ui-monospace, SFMono-Regular, "SF Mono",
             "Cascadia Mono", Menlo, Consolas, monospace;
 
   --t-xs:   0.75rem;

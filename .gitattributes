@@ -10,4 +10,5 @@
 # Binarios: que git no intente convertirlos ni mostrarlos como diff.
 *.png   binary
 *.jpg   binary
-*.docx  binary
+*.pdf   binary
+*.woff2 binary

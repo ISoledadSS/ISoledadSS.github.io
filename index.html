@@ -23,11 +23,15 @@
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<!-- Las fuentes se piden antes de que el CSS las descubra, para que el texto
+     no se dibuje primero con la tipografía del sistema y salte después. -->
+<link rel="preload" href="assets/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/geist-mono-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <!-- El ?v= fuerza a los navegadores a pedir la versión nueva en lugar de la
      copia en caché. Súbelo cada vez que cambies un archivo de css/ o js/. -->
-<link rel="stylesheet" href="css/tokens.css?v=4">
-<link rel="stylesheet" href="css/base.css?v=4">
-<link rel="stylesheet" href="css/components.css?v=4">
+<link rel="stylesheet" href="css/tokens.css?v=5">
+<link rel="stylesheet" href="css/base.css?v=5">
+<link rel="stylesheet" href="css/components.css?v=5">
 </head>
 <body>
 
@@ -936,6 +940,6 @@
   <img id="lbimg" src="" alt="">
 </div>
 
-<script src="js/main.js?v=4"></script>
+<script src="js/main.js?v=5"></script>
 </body>
 </html>

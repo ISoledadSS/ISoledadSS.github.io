@@ -1,0 +1,8 @@
+Geist y Geist Mono — fuentes variables autoalojadas.
+Licencia SIL Open Font 1.1 · https://github.com/vercel/geist-font
+
+Archivos esperados en esta carpeta:
+  geist-latin-wght-normal.woff2
+  geist-mono-latin-wght-normal.woff2
+
+Si faltan, el sitio no se rompe: cae a la tipografía del sistema.
