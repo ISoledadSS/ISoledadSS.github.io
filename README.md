@@ -1,6 +1,6 @@
 # isoledadss.github.io
 
-Sitio personal de **Isaac Soledad Martínez** — economista financiero y desarrollador
+Sitio personal de **Isaac Soledad Martínez**  economista financiero y (cuasi)desarrollador
 de plataformas de datos financieros.
 
 **→ [isoledadss.github.io](https://isoledadss.github.io/)**
