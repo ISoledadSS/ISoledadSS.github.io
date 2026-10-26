@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- La política impide que la página cargue algo que no sea suyo o envíe algo por la red (connect-src 'none'), que
+     mande formularios, que abra trabajadores y que escriba HTML desde el código (trusted-types). No puede impedir que la
+     página navegue a otra dirección ni el WebRTC, que el código no usa. El motor corre aquí mismo, no en un trabajador
+     aparte, para que esta regla lo cubra también a él. Como etiqueta no admite frame-ancestors: si el alojamiento deja
+     poner encabezados, conviene mandarla también como encabezado, con frame-ancestors 'none'. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; font-src 'self'; manifest-src 'self'; connect-src 'none'; worker-src 'none'; frame-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'; require-trusted-types-for 'script'; trusted-types 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<title>IDóneo, versión web de prueba</title>
+<meta name="description" content="Captura de credenciales y pasaportes a tamaño real sobre fondo blanco, en PDF tamaño carta. Todo se procesa en el navegador.">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="img/icono.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="img/icono_180.png">
+<link rel="stylesheet" href="estilos.css">
+<script type="module" src="app.js"></script>
+</head>
+<body>
+<main id="app">
+
+  <!-- Inicio: qué se va a capturar -->
+  <section id="inicio" class="pantalla" aria-labelledby="inicio-titulo">
+    <header class="membrete">
+      <img class="marca" src="img/marca.svg" alt="" width="66" height="47">
+      <h1 id="inicio-titulo" tabindex="-1">Captura de identificaciones</h1>
+    </header>
+    <p class="descriptor">Guía de captura con parámetros verificables en una revisión de cumplimiento.</p>
+    <p class="indicacion">Elige el documento que vas a capturar.</p>
+    <ul class="documentos">
+      <li><button type="button" class="documento" data-formato="ID1">
+        <img src="img/doc_credencial.svg" alt="" width="31" height="19">
+        <span class="documento-texto"><span class="documento-titulo">Credencial (INE)</span>
+          <span class="documento-detalle">Anverso y reverso, 85.6&nbsp;×&nbsp;54&nbsp;mm</span></span>
+        <span class="flecha" aria-hidden="true"></span>
+      </button></li>
+      <li><button type="button" class="documento" data-formato="ID3">
+        <img src="img/doc_pasaporte.svg" alt="" width="45" height="32">
+        <span class="documento-texto"><span class="documento-titulo">Pasaporte</span>
+          <span class="documento-detalle">Página de datos, 125&nbsp;×&nbsp;88&nbsp;mm</span></span>
+        <span class="flecha" aria-hidden="true"></span>
+      </button></li>
+      <li><button type="button" class="documento" data-formato="ID3_ABIERTA">
+        <img src="img/doc_libreta.svg" alt="" width="45" height="63">
+        <span class="documento-texto"><span class="documento-titulo">Pasaporte abierto</span>
+          <span class="documento-detalle">Las dos páginas, 125&nbsp;×&nbsp;176&nbsp;mm</span></span>
+        <span class="flecha" aria-hidden="true"></span>
+      </button></li>
+    </ul>
+
+    <h2>Antes de tomar la foto</h2>
+    <p>Una superficie lisa, mate y más oscura que la identificación, luz pareja que te llegue de frente, nada alrededor y el teléfono paralelo y cerca.</p>
+    <details class="guia">
+      <summary>Ver la guía con dibujos</summary>
+      <div class="guia-paginas">
+        <figure class="guia-pagina">
+          <img src="img/guia_superficie_mate.svg" alt="Así sí: una identificación sobre una superficie oscura y mate">
+          <figcaption><strong>La superficie.</strong> Lisa, mate, de un solo color y más oscura que la identificación. Si tu mesa brilla, tiene veta o es clara, pon debajo de la identificación una tela o una cartulina, oscuras y sin brillo.</figcaption>
+        </figure>
+        <figure class="guia-pagina">
+          <img src="img/guia_luz_frente.svg" alt="Así sí: la luz de frente">
+          <figcaption><strong>La luz.</strong> Pareja y de frente. Con la lámpara justo encima o a tu espalda, la sombra del teléfono o de tu brazo cae sobre la identificación.</figcaption>
+        </figure>
+        <figure class="guia-pagina">
+          <img src="img/guia_alrededor_libre.svg" alt="Así sí: la identificación sola, con espacio libre alrededor">
+          <figcaption><strong>Alrededor.</strong> La identificación sola y completa, con unos centímetros libres a su alrededor. Nada encima ni junto a ella.</figcaption>
+        </figure>
+        <figure class="guia-pagina">
+          <img src="img/guia_telefono_paralelo.svg" alt="Así sí: el teléfono paralelo a la mesa y cerca">
+          <figcaption><strong>El teléfono.</strong> Paralelo a la mesa y cerca, con la identificación llenando casi toda la foto pero con un poco de mesa alrededor de las cuatro esquinas.</figcaption>
+        </figure>
+      </div>
+    </details>
+
+    <p id="aviso-navegador" class="aviso claro" role="alert" hidden>Este navegador es demasiado antiguo para la página. Usa Safari o Chrome actualizados (en iPhone, iOS 15 o posterior).</p>
+    <p class="privacidad">Todo se procesa en este navegador. La página no envía las fotos ni el PDF a ningún lado: salen sólo cuando tú guardas o compartes el PDF.</p>
+    <details class="sobre">
+      <summary>Sobre esta versión</summary>
+      <p>Es una versión de prueba de IDóneo para el navegador, con el mismo motor de la aplicación de Android. A diferencia de la aplicación, no guía la cámara en vivo: la foto se toma con la cámara del teléfono y el motor la revisa después, con los mismos criterios.</p>
+      <p>No verifica que el documento sea auténtico ni que esté vigente, no garantiza que un tercero acepte el archivo y no está afiliada a ninguna autoridad ni institución. Úsala con la identificación de muestra o con documentos propios mientras dure la prueba.</p>
+      <p>La tipografía es Barlow (licencia SIL Open Font) y el motor se compila con TeaVM (licencia Apache 2.0): ver <a href="licencias/LEEME.txt">licencias</a>.</p>
+    </details>
+    <p class="colofon">IDóneo, versión web de prueba <span id="version"></span></p>
+  </section>
+
+  <!-- Un lado: tomar o elegir la foto -->
+  <section id="lado" class="pantalla" aria-labelledby="lado-titulo" hidden>
+    <div class="barra">
+      <button type="button" class="volver" data-accion="inicio">Inicio</button>
+      <span id="lado-paso" class="pastilla"></span>
+    </div>
+    <h1 id="lado-titulo" tabindex="-1" aria-describedby="lado-estado"></h1>
+    <p id="lado-indicacion"></p>
+
+    <div id="lado-estado" class="estado" role="status" aria-live="polite"></div>
+
+    <div class="acciones-foto">
+      <label class="boton primario archivo">
+        <input type="file" id="foto-camara" accept="image/*" capture="environment">
+        <span>Tomar foto</span>
+      </label>
+      <label class="boton secundario archivo">
+        <input type="file" id="foto-archivo" accept="image/*">
+        <span>Elegir una foto guardada</span>
+      </label>
+      <button type="button" id="ver-toma" class="boton plano" hidden>Ver la toma que no pasó</button>
+      <button type="button" id="reiniciar-lado" class="boton plano" hidden>Empezar de nuevo este lado</button>
+    </div>
+    <p id="aviso-lectura" class="aviso claro" hidden>Este navegador altera un poco las imágenes que lee la página, como protección contra el rastreo, y las mediciones pueden variar. Para la prueba, anota en tus comentarios que salió este aviso.</p>
+    <p class="nota">La página no guarda la foto ni la envía a ningún lado. Una foto reenviada por mensajería suele llegar reducida y no alcanzar la resolución.</p>
+  </section>
+
+  <!-- Procesando -->
+  <section id="procesando" class="pantalla centrada" aria-labelledby="procesando-titulo" hidden>
+    <div class="giro" aria-hidden="true"></div>
+    <h1 id="procesando-titulo" tabindex="-1">Revisando la foto…</h1>
+    <p>Se mide la inclinación, las esquinas, la nitidez, la resolución, la luz y los reflejos.</p>
+  </section>
+
+  <!-- Revisión de un lado -->
+  <section id="revision" class="pantalla oscura" aria-labelledby="revision-titulo" hidden>
+    <h1 id="revision-titulo" tabindex="-1"></h1>
+    <div class="lamina">
+      <canvas id="revision-imagen" role="img" aria-label="La identificación como quedará en el PDF"></canvas>
+    </div>
+    <div class="fila-derecha">
+      <button type="button" id="girar" class="boton secundario oscuro">Girar media vuelta</button>
+    </div>
+    <div id="franja" class="franja" hidden>
+      <p>En la ampliación va marcado lo que se quita al dejar la franja en blanco. Debe ser sólo la franja entre el doblez del pasaporte y la página de datos. Desliza la ampliación a lo ancho, y si lo marcado cubre algo de la página, conserva la franja.</p>
+      <div class="franja-desplazable" tabindex="0" role="group" aria-label="Ampliación de la orilla junto al doblez; se desplaza a lo ancho"><canvas id="franja-imagen" role="img" aria-label="La orilla de la página de datos junto al doblez, ampliada, con lo que se quita marcado"></canvas></div>
+      <button type="button" id="conservar" class="boton secundario oscuro">Conservar la franja</button>
+      <p id="franja-conservada" class="tenue" hidden>La franja se queda como salió en la toma.</p>
+    </div>
+    <div id="revision-aviso" class="aviso" hidden></div>
+    <p id="revision-dictamen" class="dictamen" hidden></p>
+    <table class="mediciones">
+      <caption class="oculto">Mediciones de la toma</caption>
+      <tbody id="revision-tabla"></tbody>
+    </table>
+    <p id="revision-salida" class="tenue"></p>
+    <div class="botones-abajo">
+      <button type="button" id="revision-izquierda" class="boton secundario oscuro">Repetir</button>
+      <button type="button" id="revision-derecha" class="boton primario oscuro">Continuar</button>
+    </div>
+  </section>
+
+  <!-- Resultado -->
+  <section id="resultado" class="pantalla" aria-labelledby="resultado-titulo" hidden>
+    <h1 id="resultado-titulo" tabindex="-1">PDF listo</h1>
+    <div id="resultado-sin-cumplir" class="aviso claro" hidden></div>
+    <div class="mesa">
+      <canvas id="hoja" role="img" aria-label="Vista de la hoja tamaño carta"></canvas>
+    </div>
+    <p class="tenue">Así queda la hoja tamaño carta del PDF.</p>
+    <h2>Tamaño en la hoja</h2>
+    <div class="segmentos" role="radiogroup" aria-label="Tamaño en la hoja">
+      <button type="button" role="radio" data-escala="1" aria-checked="true">Tamaño real</button>
+      <button type="button" role="radio" data-escala="1.5" aria-checked="false" aria-label="Ampliada al 150 %">150&nbsp;%</button>
+      <button type="button" role="radio" data-escala="2" aria-checked="false" aria-label="Ampliada al 200 %">200&nbsp;%</button>
+    </div>
+    <p id="escala-nota" class="tenue" hidden></p>
+    <label class="campo">
+      <span>Nombre del archivo</span>
+      <input type="text" id="nombre-archivo" value="identificacion" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="80">
+    </label>
+    <div class="acciones-pdf">
+      <button type="button" id="guardar" class="boton primario">Guardar PDF</button>
+      <button type="button" id="compartir" class="boton secundario" hidden>Compartir PDF</button>
+      <button type="button" id="mediciones" class="boton plano">Guardar las mediciones (JSON)</button>
+    </div>
+    <p id="resultado-error" class="error" role="alert"></p>
+    <p class="tenue">El PDF contiene sólo la hoja con la identificación. Las mediciones de la captura se guardan aparte, si las quieres conservar.</p>
+    <button type="button" id="terminar" class="boton plano peligro">Terminar y borrar</button>
+  </section>
+
+  <dialog id="salir">
+    <p>Si vuelves al inicio se pierde lo que llevas capturado.</p>
+    <div class="botones-dialogo">
+      <button type="button" class="boton plano" data-respuesta="no">Seguir aquí</button>
+      <button type="button" class="boton primario" data-respuesta="si">Volver al inicio</button>
+    </div>
+  </dialog>
+
+  <noscript><p class="aviso claro">Esta página necesita JavaScript: el motor que revisa la foto corre en el navegador.</p></noscript>
+</main>
+</body>
+</html>

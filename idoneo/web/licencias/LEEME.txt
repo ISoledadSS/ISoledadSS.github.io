@@ -1,0 +1,12 @@
+IDóneo, versión web de prueba. Programas y tipografías de terceros que lleva esta página.
+
+Barlow
+  La tipografía de la página, la misma de la aplicación (barlow_regular.ttf, barlow_medium.ttf, barlow_semibold.ttf).
+  Copyright 2017 The Barlow Project Authors (https://github.com/jpt/barlow).
+  Licencia SIL Open Font License 1.1: Barlow-OFL.txt.
+
+TeaVM 0.16.0
+  motor.js es el motor de IDóneo compilado de Java a JavaScript con TeaVM (https://teavm.org), y lleva partes de la
+  biblioteca de clases de TeaVM, que incluye código derivado de Apache Harmony.
+  Copyright Alexey Andreev y los colaboradores de TeaVM.
+  Licencia Apache 2.0: Apache-2.0.txt.
