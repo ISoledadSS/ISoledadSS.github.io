@@ -3,7 +3,7 @@
 
 import * as motor from './motor.js';
 
-const VERSION = '0.1.2';
+const VERSION = '0.1.3';
 
 // Los lados de cada documento, como en la aplicación (lado_anverso, lado_reverso, lado_datos, lado_libreta).
 const LADOS = {
@@ -40,14 +40,20 @@ const SUMA_LECTURA = 2992089;
 const CAMARA_EN_PAGINA = typeof window.ImageCapture === 'function'
   && !!(navigator.mediaDevices && typeof navigator.mediaDevices.getUserMedia === 'function')
   && window.matchMedia('(pointer: coarse)').matches;
-// El ancho de la foto fija que se pide: en 4:3 son 12.6 megapixeles, lo que el motor usa sin reducir.
+// La foto fija que se pide: 4:3, 12.6 megapixeles, lo que el motor usa sin reducir. La cámara da la más cercana.
 const ANCHO_FOTO = 4096;
+const ALTO_FOTO = 3072;
+// El video también se pide grande: si la foto fija falla, el cuadro del video tiene que alcanzar la resolución.
+const VIDEO_IDEAL = { width: { ideal: 4096 }, height: { ideal: 3072 } };
+// Lo que el marco ocupa del ancho del video. Más chico que la pantalla para que el teléfono quede a una distancia a la
+// que la cámara enfoca: un navegador no cambia al lente de acercamiento como la aplicación de la cámara.
+const FRACCION_MARCO = 0.66;
 // El marco de la cámara tiene la proporción del documento (el pasaporte abierto, de pie).
 const PROPORCION = { ID1: 85.6 / 53.98, ID3: 125 / 88, ID3_ABIERTA: 125 / 176 };
 const INDICACION_MARCO = {
-  ID1: 'Pon la credencial dentro del marco, con un poco de mesa alrededor y el teléfono paralelo a la mesa.',
-  ID3: 'Pon la página de datos dentro del marco, con un poco de mesa alrededor y el teléfono paralelo a la mesa.',
-  ID3_ABIERTA: 'Pon las dos páginas dentro del marco, con un poco de mesa alrededor y el teléfono paralelo a la mesa.',
+  ID1: 'Pon la credencial dentro del marco, con el teléfono paralelo a la mesa. Si se ve borrosa, aleja un poco el teléfono y espera a que enfoque.',
+  ID3: 'Pon la página de datos dentro del marco, con el teléfono paralelo a la mesa. Si se ve borrosa, aleja un poco el teléfono y espera a que enfoque.',
+  ID3_ABIERTA: 'Pon las dos páginas dentro del marco, con el teléfono paralelo a la mesa. Si se ven borrosas, aleja un poco el teléfono y espera a que enfoque.',
 };
 // Mientras la cámara del sistema está abierta, la pestaña guarda sólo la hora en que se abrió: si la página se vuelve a
 // cargar con eso puesto, el teléfono la cerró mientras tanto, y se avisa en el inicio.
@@ -79,7 +85,9 @@ const estado = {
   lecturaAlterada: false,
   camaraEnPagina: CAMARA_EN_PAGINA, // se apaga si la cámara de la página no abre: la siguiente vez, la del sistema
   camaraSistema: 0,    // cuándo se abrió la cámara del sistema, mientras no llega la foto ni se cancela
+  sistemaUnaVez: false, // «Usar la app de cámara» desde la cámara de la página: la siguiente toma, con la del sistema
   avisoCamara: '',     // lo que se dice de la cámara en la pantalla del lado
+  foto: '',            // de dónde salió la última foto y de qué tamaño, para quien prueba
 };
 
 const $ = (id) => document.getElementById(id);
@@ -209,7 +217,7 @@ function ponerEstado(r) {
   if (estado.segundos > 0) {
     const tiempo = document.createElement('p');
     tiempo.className = 'tiempo';
-    tiempo.textContent = `Revisada en ${estado.segundos.toFixed(1)} s.`;
+    tiempo.textContent = `Revisada en ${estado.segundos.toFixed(1)} s.${estado.foto ? ` ${estado.foto}` : ''}`;
     caja.append(tiempo);
   }
 }
@@ -219,17 +227,20 @@ async function alElegirFoto(entrada) {
   entrada.value = '';
   desmarcarCamara();
   if (!archivo) return;
-  await procesarFoto(archivo);
+  await procesarFoto(archivo, entrada.id === 'foto-camara' ? 'de la cámara del teléfono' : 'guardada');
 }
 
-// La foto, de un archivo o de la cámara de la página, al motor.
-async function procesarFoto(archivo) {
+// La foto, de un archivo o de la cámara de la página, al motor. El origen se anota con su tamaño, para quien prueba.
+async function procesarFoto(archivo, origen) {
   estado.avisoCamara = '';
+  estado.foto = '';
   ir('procesando');
   await pintar();
   let focal;
   try {
-    focal = await decodificarEnElMotor(archivo);
+    const leida = await decodificarEnElMotor(archivo);
+    focal = leida.focal;
+    estado.foto = `Foto ${origen}, de ${leida.ancho} × ${leida.alto} pixeles.`;
   } catch (e) {
     console.error(e);
     estado.ultimo = { paso: 'DESCARTADA', mensaje: 'No se pudo abrir esa foto. Tómala de nuevo o elige otra en formato JPEG.' };
@@ -277,12 +288,20 @@ function empezarLadoDeNuevo() {
 
 // «Tomar foto»: donde se puede, la cámara de la página; si no, la del sistema (la casilla sigue su curso).
 function alTomarFoto(e) {
-  if (estado.camaraEnPagina) {
+  if (estado.camaraEnPagina && !estado.sistemaUnaVez) {
     e.preventDefault();
     abrirCamara();
     return;
   }
+  estado.sistemaUnaVez = false;
   marcarCamara();
+}
+
+// Desde la cámara de la página, la del sistema: la casilla se abre con el mismo toque.
+function usarCamaraDelSistema() {
+  salirDeLaCamara('');
+  estado.sistemaUnaVez = true;
+  $('foto-camara').click();
 }
 
 function marcarCamara() {
@@ -331,7 +350,7 @@ function ponerMarco() {
   }
   const k = Math.min(anchoPantalla / anchoVideo, altoPantalla / altoVideo);
   const proporcion = PROPORCION[estado.formato];
-  let ancho = anchoVideo * k * 0.86;
+  let ancho = anchoVideo * k * FRACCION_MARCO;
   let alto = ancho / proporcion;
   const altoMaximo = Math.min(altoVideo * k * 0.86, altoPantalla * 0.52);
   if (alto > altoMaximo) {
@@ -357,7 +376,7 @@ async function abrirCamara() {
   try {
     flujo = await navigator.mediaDevices.getUserMedia({
       audio: false,
-      video: { facingMode: { ideal: 'environment' }, width: { ideal: 1920 }, height: { ideal: 1440 } },
+      video: { facingMode: { ideal: 'environment' }, ...VIDEO_IDEAL },
     });
   } catch (e) {
     console.error(e);
@@ -376,6 +395,7 @@ async function abrirCamara() {
   }
   camara.flujo = flujo;
   const pista = flujo.getVideoTracks()[0];
+  await enfoqueContinuo(pista);
   pista.addEventListener('ended', () => {
     if (camara.flujo === flujo) salirDeLaCamara('La cámara se cerró. Vuelve a tocar «Tomar foto».');
   });
@@ -389,6 +409,18 @@ async function abrirCamara() {
   camara.captura = new ImageCapture(pista);
   $('camara-estado').textContent = '';
   $('camara-disparar').disabled = false;
+}
+
+// El enfoque automático continuo, donde la cámara lo deja pedir (Chrome en Android).
+async function enfoqueContinuo(pista) {
+  try {
+    const puede = typeof pista.getCapabilities === 'function' ? pista.getCapabilities() : {};
+    if (Array.isArray(puede.focusMode) && puede.focusMode.includes('continuous')) {
+      await pista.applyConstraints({ advanced: [{ focusMode: 'continuous' }] });
+    }
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 function detenerFlujo(flujo) {
@@ -419,15 +451,23 @@ async function disparar() {
   $('camara-cancelar').disabled = true;
   $('camara-estado').textContent = 'Tomando la foto…';
   let foto = null;
+  let origen = 'de la cámara de la página';
   try {
-    foto = await fotoFija(captura);
+    foto = await fotoFija(captura, true);
   } catch (e) {
     console.error(e);
-    // sin foto fija, el cuadro del video, que tiene menos resolución
+    // otra vez, sin ajustes: la que la cámara dé
     try {
-      foto = await cuadroDelVideo($('camara-video'));
+      foto = await fotoFija(captura, false);
     } catch (e2) {
       console.error(e2);
+      // sin foto fija, el cuadro del video
+      try {
+        foto = await cuadroDelVideo($('camara-video'));
+        origen = 'del video de la cámara de la página';
+      } catch (e3) {
+        console.error(e3);
+      }
     }
   }
   if ($('camara').hidden) return; // se salió mientras se tomaba
@@ -437,18 +477,20 @@ async function disparar() {
     mostrarLado();
     return;
   }
-  await procesarFoto(foto);
+  await procesarFoto(foto, origen);
 }
 
-// La foto fija de la cámara, sin flash y de a lo más ANCHO_FOTO de ancho.
-async function fotoFija(captura) {
+// La foto fija de la cámara: con ajustes, sin flash y del tamaño más cercano a ANCHO_FOTO × ALTO_FOTO; sin ellos, la
+// que la cámara dé.
+async function fotoFija(captura, conAjustes) {
+  if (!conAjustes) return captura.takePhoto();
   const ajustes = {};
   try {
     const puede = await captura.getPhotoCapabilities();
     if (Array.isArray(puede.fillLightMode) && puede.fillLightMode.includes('off')) ajustes.fillLightMode = 'off';
-    if (puede.imageWidth && puede.imageWidth.max > 0) {
-      ajustes.imageWidth = Math.max(puede.imageWidth.min || 0, Math.min(puede.imageWidth.max, ANCHO_FOTO));
-    }
+    const dentro = (rango, v) => Math.max(rango.min || 0, Math.min(rango.max, v));
+    if (puede.imageWidth && puede.imageWidth.max > 0) ajustes.imageWidth = dentro(puede.imageWidth, ANCHO_FOTO);
+    if (puede.imageHeight && puede.imageHeight.max > 0) ajustes.imageHeight = dentro(puede.imageHeight, ALTO_FOTO);
   } catch (e) {
     // sin las capacidades de la cámara: la foto que dé
   }
@@ -505,7 +547,7 @@ async function decodificarEnElMotor(archivo) {
     } finally {
       vaciarLienzo(lienzo);
     }
-    return focalDeExif(cabeza, ancho, alto);
+    return { focal: focalDeExif(cabeza, ancho, alto), ancho: w0, alto: h0 };
   } finally {
     img.removeAttribute('src');
     URL.revokeObjectURL(url);
@@ -621,7 +663,7 @@ async function mostrarRevision(rev) {
   let salida = `Salida a ${rev.dpiSalida} dpi, a tamaño real`;
   if (rev.tomasCombinadas > 1) salida += `. Reflejo eliminado combinando ${rev.tomasCombinadas} tomas`;
   if (estado.segundos > 0) salida += `. Revisada en ${estado.segundos.toFixed(1)} s`;
-  $('revision-salida').textContent = `${salida}.`;
+  $('revision-salida').textContent = `${salida}.${estado.foto ? ` ${estado.foto}` : ''}`;
   $('revision-izquierda').textContent = rev.sinCumplir ? 'Usarla así' : 'Repetir';
   $('revision-derecha').textContent = rev.sinCumplir ? 'Repetir' : 'Continuar';
   ponerDocumento();
@@ -991,6 +1033,7 @@ function enlazar() {
   $('foto-camara').addEventListener('cancel', desmarcarCamara);
   $('camara-disparar').addEventListener('click', disparar);
   $('camara-cancelar').addEventListener('click', () => salirDeLaCamara(''));
+  $('camara-sistema').addEventListener('click', usarCamaraDelSistema);
   window.addEventListener('resize', () => {
     if (!$('camara').hidden) ponerMarco();
   });

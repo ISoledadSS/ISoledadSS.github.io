@@ -329,6 +329,23 @@ details[open] > summary::after { content: " −"; }
   cursor: pointer;
 }
 .disparador:disabled { opacity: 0.4; cursor: default; }
+.camara-sistema {
+  justify-self: end;
+  min-height: 48px;
+  max-width: 9rem;
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: #fff;
+  font: inherit;
+  font-weight: 500;
+  font-size: 0.95rem;
+  line-height: 1.25;
+  text-align: right;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
 .disparador:focus-visible { outline: 3px solid var(--acento); outline-offset: 3px; }
 
 /* ------------------------------------------------------------------ procesando */
