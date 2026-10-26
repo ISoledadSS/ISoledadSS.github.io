@@ -30,6 +30,7 @@
       <h1 id="inicio-titulo" tabindex="-1">Captura de identificaciones</h1>
     </header>
     <p class="descriptor">Guía de captura con parámetros verificables en una revisión de cumplimiento.</p>
+    <p id="aviso-recarga" class="aviso claro" role="alert" hidden>La página se volvió a cargar mientras estaba abierta la cámara, y lo que llevabas capturado se perdió. Suele pasar cuando al teléfono le falta memoria. Vuelve a empezar; si se repite, toma la foto con la cámara del teléfono y súbela con «Elegir una foto guardada».</p>
     <p class="indicacion">Elige el documento que vas a capturar.</p>
     <ul class="documentos">
       <li><button type="button" class="documento" data-formato="ID1">
@@ -80,7 +81,8 @@
     <p class="privacidad">Todo se procesa en este navegador. La página no envía las fotos ni el PDF a ningún lado: salen sólo cuando tú guardas o compartes el PDF.</p>
     <details class="sobre">
       <summary>Sobre esta versión</summary>
-      <p>Es una versión de prueba de IDóneo para el navegador, con el mismo motor de la aplicación de Android. A diferencia de la aplicación, no guía la cámara en vivo: la foto se toma con la cámara del teléfono y el motor la revisa después, con los mismos criterios.</p>
+      <p>Es una versión de prueba de IDóneo para el navegador, con el mismo motor de la aplicación de Android. A diferencia de la aplicación, no guía la cámara en vivo: la foto se toma y el motor la revisa después, con los mismos criterios.</p>
+      <p>En Chrome para Android la foto se toma dentro de la página, con un marco de referencia: el navegador pide permiso para usar la cámara la primera vez, y la cámara se apaga en cuanto se toma la foto o se sale de esa pantalla. En iPhone se usa la cámara del teléfono.</p>
       <p>No verifica que el documento sea auténtico ni que esté vigente, no garantiza que un tercero acepte el archivo y no está afiliada a ninguna autoridad ni institución. Úsala con la identificación de muestra o con documentos propios mientras dure la prueba.</p>
       <p>La tipografía es Barlow (licencia SIL Open Font) y el motor se compila con TeaVM (licencia Apache 2.0): ver <a href="licencias/LEEME.txt">licencias</a>.</p>
     </details>
@@ -97,6 +99,7 @@
     <p id="lado-indicacion"></p>
 
     <div id="lado-estado" class="estado" role="status" aria-live="polite"></div>
+    <p id="aviso-camara" class="aviso claro" role="alert" hidden></p>
 
     <div class="acciones-foto">
       <label class="boton primario archivo">
@@ -112,6 +115,21 @@
     </div>
     <p id="aviso-lectura" class="aviso claro" hidden>Este navegador altera un poco las imágenes que lee la página, como protección contra el rastreo, y las mediciones pueden variar. Para la prueba, anota en tus comentarios que salió este aviso.</p>
     <p class="nota">La página no guarda la foto ni la envía a ningún lado. Una foto reenviada por mensajería suele llegar reducida y no alcanzar la resolución.</p>
+  </section>
+
+  <!-- La cámara dentro de la página (donde el navegador da foto fija): el navegador no deja el frente a otra aplicación -->
+  <section id="camara" class="pantalla camara" aria-labelledby="camara-titulo" hidden>
+    <video id="camara-video" playsinline muted aria-hidden="true"></video>
+    <div class="camara-marco" aria-hidden="true"><div id="camara-recuadro"></div></div>
+    <div class="camara-arriba">
+      <h1 id="camara-titulo" tabindex="-1"></h1>
+      <p id="camara-indicacion"></p>
+    </div>
+    <p id="camara-estado" class="camara-estado" role="status" aria-live="polite"></p>
+    <div class="camara-abajo">
+      <button type="button" id="camara-cancelar" class="boton secundario oscuro">Cancelar</button>
+      <button type="button" id="camara-disparar" class="disparador" aria-label="Tomar la foto"></button>
+    </div>
   </section>
 
   <!-- Procesando -->
