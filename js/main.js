@@ -1,5 +1,5 @@
 /* ============================================================
-   main.js — comportamiento de la página
+   main.js · comportamiento de la página
    Sin dependencias. Todo degrada con elegancia si algo falla.
    ============================================================ */
 
@@ -49,9 +49,10 @@
 
   var TEXTOS = {
     es: {
-      titulo: 'Isaac Soledad Martínez — Plataformas de datos financieros',
-      desc: 'Economista financiero y desarrollador. Diseño y construyo plataformas internas de ' +
-            'operación, información y analítica para asesoría financiera: Python/FastAPI, React y PostgreSQL.',
+      titulo: 'Isaac Soledad Martínez · Desarrollo de software',
+      desc: 'Economista financiero y desarrollador. Construyo software completo: una plataforma interna ' +
+            'de operación y analítica, una aplicación Android de captura de identificaciones y un sistema ' +
+            'de estudio adaptativo para el examen CFA.',
       locale: 'es_MX',
       secciones: 'Secciones',
       tema: 'Cambiar tema',
@@ -60,9 +61,10 @@
       ampliada: 'Vista ampliada'
     },
     en: {
-      titulo: 'Isaac Soledad Martínez — Financial data platforms',
-      desc: 'Financial economist and developer. I design and build internal platforms for operations, ' +
-            'information and analytics in financial advisory: Python/FastAPI, React and PostgreSQL.',
+      titulo: 'Isaac Soledad Martínez · Software development',
+      desc: 'Financial economist and developer. I build complete software: an internal operations and ' +
+            'analytics platform, an Android app for capturing identity documents and an adaptive study ' +
+            'system for the CFA exam.',
       locale: 'en_US',
       secciones: 'Sections',
       tema: 'Toggle theme',

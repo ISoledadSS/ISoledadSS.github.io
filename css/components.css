@@ -1,5 +1,5 @@
 /* ============================================================
-   components.css — barra, hero, cifras, proyecto, galería,
+   components.css · barra, hero, cifras, proyecto, galería,
    capacidades, timeline, tarjetas, pie y lightbox
    ============================================================ */
 
@@ -320,12 +320,12 @@
 }
 @media (max-width: 900px) { .cols { grid-template-columns: 1fr; gap: var(--sp-12); } }
 
-.prose h3 {
+.prose h4 {
   font-size: var(--t-lg);
   margin-bottom: var(--sp-4);
   margin-top: var(--sp-8);
 }
-.prose h3:first-child { margin-top: 0; }
+.prose h4:first-child { margin-top: 0; }
 .prose p { color: var(--ink-2); }
 
 .specs {
@@ -364,7 +364,7 @@
 .gal { margin-bottom: var(--sp-24); }
 
 .gal__head { margin-bottom: var(--sp-6); }
-.gal__head h3 { font-size: var(--t-lg); margin-bottom: var(--sp-2); }
+.gal__head h4 { font-size: var(--t-lg); margin-bottom: var(--sp-2); }
 .gal__note { font-size: var(--t-sm); color: var(--ink-3); }
 
 .gal__tabs {
@@ -419,7 +419,7 @@
   line-height: 1.6;
   max-width: 78ch;
 }
-.shot figcaption b { color: var(--ink-2); }
+.shot__t { display: block; margin-bottom: var(--sp-1); font-weight: 620; color: var(--ink); }
 
 /* ══════════ Bloques de capacidad del proyecto ══════════ */
 
@@ -449,7 +449,7 @@
   color: var(--accent);
   margin-bottom: var(--sp-3);
 }
-.feat h3 { font-size: var(--t-md); margin-bottom: var(--sp-3); }
+.feat h4 { font-size: var(--t-md); margin-bottom: var(--sp-3); }
 .feat p { font-size: var(--t-sm); color: var(--ink-2); line-height: 1.65; }
 
 /* ══════════ Capacidades ══════════ */
@@ -557,7 +557,7 @@
 }
 .cred li:last-child { border-bottom: 0; }
 .cred b { display: block; font-size: var(--t-base); font-weight: 600; margin-bottom: 2px; }
-.cred span { font-size: var(--t-sm); color: var(--ink-3); }
+.cred li > span { display: block; font-size: var(--t-sm); color: var(--ink-3); }
 
 /* ══════════ Tarjetas de laboratorio ══════════ */
 
@@ -580,7 +580,7 @@
   color: var(--warm);
   margin-bottom: var(--sp-3);
 }
-.card h3 { font-size: var(--t-md); margin-bottom: var(--sp-3); }
+.card h4 { font-size: var(--t-md); margin-bottom: var(--sp-3); }
 .card p { font-size: var(--t-sm); color: var(--ink-2); }
 
 /* ══════════ Contacto ══════════ */
@@ -694,7 +694,7 @@ html[lang="en"] [lang="es"] { display: none; }
 }
 
 .bvb__head { max-width: 68ch; margin-bottom: var(--sp-8); }
-.bvb__head h3 { font-size: var(--t-lg); margin-bottom: var(--sp-3); }
+.bvb__head h4 { font-size: var(--t-lg); margin-bottom: var(--sp-3); }
 .bvb__rule { font-size: var(--t-base); color: var(--ink-2); }
 
 .bvb__list {
@@ -781,7 +781,7 @@ html[lang="en"] [lang="es"] { display: none; }
 .apps { margin-bottom: var(--sp-24); }
 
 .apps__head { max-width: 66ch; margin-bottom: var(--sp-8); }
-.apps__head h3 { font-size: var(--t-lg); margin-bottom: var(--sp-2); }
+.apps__head h4 { font-size: var(--t-lg); margin-bottom: var(--sp-2); }
 .apps__head p { font-size: var(--t-sm); color: var(--ink-3); }
 
 .apps__list { border-top: 1px solid var(--line); }
@@ -804,7 +804,7 @@ html[lang="en"] [lang="es"] { display: none; }
   padding-top: 2px;
 }
 
-.apps__list h4 {
+.apps__list h5 {
   font-size: var(--t-md);
   font-weight: 640;
   letter-spacing: -0.015em;
@@ -821,3 +821,191 @@ html[lang="en"] [lang="es"] { display: none; }
   color: var(--ink-3) !important;
   line-height: 1.7;
 }
+
+/* ══════════ Catálogo de desarrollos ══════════ */
+
+.catalog {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-6);
+  margin-bottom: var(--sp-32);
+}
+@media (max-width: 960px) { .catalog { grid-template-columns: 1fr; } }
+
+.cat {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--sp-8);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  transition: border-color .25s var(--ease), transform .25s var(--ease);
+}
+.cat:hover { border-color: var(--accent); transform: translateY(-3px); }
+
+.cat__n {
+  font-family: var(--f-mono);
+  font-size: var(--t-sm);
+  color: var(--accent);
+  margin-bottom: var(--sp-6);
+}
+.cat__kind {
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: var(--sp-2);
+}
+.cat__t {
+  font-size: var(--t-lg);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: var(--sp-3);
+}
+.cat__d {
+  font-size: var(--t-sm);
+  line-height: 1.6;
+  color: var(--ink-2);
+  margin-bottom: var(--sp-6);
+  flex: 1;
+}
+.cat__stack {
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--line);
+  margin-bottom: var(--sp-3);
+}
+.cat__st {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--t-xs);
+  color: var(--accent);
+}
+.cat__st::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* ══════════ Cabecera de cada desarrollo ══════════ */
+
+.proj {
+  padding-top: var(--sp-16);
+  margin-bottom: var(--sp-32);
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 68px;
+}
+.proj:last-of-type { margin-bottom: var(--sp-24); }
+
+.proj__head { max-width: 70ch; margin-bottom: var(--sp-16); }
+.proj__k {
+  font-family: var(--f-mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--sp-4);
+}
+.proj__t {
+  font-size: var(--t-2xl);
+  margin-bottom: var(--sp-6);
+}
+.proj__t--marca { display: flex; align-items: center; gap: var(--sp-4); }
+.proj__icono {
+  width: 56px; height: 56px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+}
+.proj__d { font-size: var(--t-md); color: var(--ink-2); }
+
+.specs__link {
+  margin-top: var(--sp-6);
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-sm);
+}
+.specs__link a {
+  color: var(--accent);
+  border-bottom: 1px solid var(--accent-dim);
+  padding-bottom: 1px;
+}
+.specs__link a:hover { border-color: var(--accent); }
+
+/* ══════════ Pantallas de teléfono ══════════ */
+
+.phones {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-4);
+}
+@media (max-width: 980px) { .phones { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 520px) {
+  .phones {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 62%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--sp-2);
+  }
+  .phones .shot { scroll-snap-align: start; }
+}
+
+.shot--phone img { border-radius: 14px; }
+.shot--phone figcaption {
+  margin-top: var(--sp-3);
+  font-size: var(--t-xs);
+  line-height: 1.45;
+}
+
+.phones__note {
+  font-size: var(--t-xs);
+  color: var(--ink-3);
+  margin-top: var(--sp-6);
+  margin-bottom: var(--sp-16);
+  max-width: 78ch;
+}
+.feats + .phones__note { margin-bottom: 0; }
+
+/* ══════════ Otros proyectos ══════════ */
+
+.others { padding-top: var(--sp-8); }
+
+/* ══════════ Qué puedo construir ══════════ */
+
+.svc {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+@media (max-width: 1020px) { .svc { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px)  { .svc { grid-template-columns: 1fr; } }
+
+.svc__i {
+  background: var(--bg-2);
+  padding: var(--sp-8);
+  transition: background-color .3s var(--ease);
+}
+.svc__i:hover { background: var(--surface); }
+.svc__n {
+  font-family: var(--f-mono);
+  font-size: var(--t-sm);
+  color: var(--accent);
+  margin-bottom: var(--sp-6);
+}
+.svc__i h3 { font-size: var(--t-md); margin-bottom: var(--sp-3); }
+.svc__i p { font-size: var(--t-sm); color: var(--ink-2); line-height: 1.65; }
